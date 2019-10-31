@@ -31,13 +31,15 @@ class Rectangle:
             #Check if Padle is Still in Window Bottom
             if not self.posy < 10:
                 self.posy = self.posy - 10
-                print(self.posy)
+            else:
+                print('already at the Top')
 
         elif down == True:
             #Check if padle is still in Window Top 
             if not self.posy > resolution[1] -60:
                 self.posy = self.posy + 10 
-                print(self.posy)
+            else:
+                print('already at the Bottom')
 
         else:
             self.posy = self.posy 
@@ -46,7 +48,7 @@ class Rectangle:
 
 #Instanciate Rectangles
 RectangleLeft = Rectangle()
-RectangleRight = Rectangle()
+RectangleRight = Rectangle(posx=400)
 
 
 while running == True:
@@ -58,10 +60,20 @@ while running == True:
                 running = False
                 pygame.quit()
 
+
             if event.key == pygame.K_UP:
                 keyup = True
             if event.key == pygame.K_DOWN:
                 keydown = True
+
+            if event.key == pygame.K_KP8:
+                key8 = True
+                print('pressed Key 8')
+            if event.key == pygame.K_KP2:
+                key2 = True
+                print('pressed Key 2')
+
+
 
         #Release Button UP
         if event.type == pygame.KEYUP:
@@ -70,18 +82,36 @@ while running == True:
             if event.key == pygame.K_DOWN:
                 keydown = False
 
+            if event.key == pygame.K_KP8:
+                key8 = False
+                print('released Key 8')
+            if event.key == pygame.K_KP2:
+                key2 = False
+                print('released Key 2')
+
+
     #Move Left rectangles
     if keyup == True:
         RectangleLeft.Move(up=True)
-    if keydown == True:
+    elif keydown == True:
         RectangleLeft.Move(down=True)
 
+    #Move Right rectangles
+    if key8 == True:
+        RectangleRight.Move(up=True)
+        print('Call Move')
+    elif key2 == True:
+        print('Call Move')
+        RectangleRight.Move(down=True)
 
 
+    #Clear window before Drawing new Items
     screen.fill(black)
 
+    #Draw Padles 
     pygame.draw.rect( screen, white, [RectangleLeft.posx, RectangleLeft.posy, RectangleLeft.width, RectangleLeft.hight])
-    
+    pygame.draw.rect( screen, white, [RectangleRight.posx, RectangleRight.posy, RectangleRight.width, RectangleRight.hight])
+
     #Update Screen
     pygame.display.flip()
 
